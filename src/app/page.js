@@ -1,103 +1,832 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import AnimationWrapper from '../components/AnimationWrapper';
+import ParticleBackground from '../components/ParticleBackground';
+import FloatingElements from '../components/FloatingElements';
+import InteractiveContactForm from '../components/InteractiveContactForm';
+
+// ReactBits Animation Components - https://www.reactbits.dev/
+import { 
+  SplitText, 
+  BlurText, 
+  GradientText, 
+  DecryptedText,
+  RotatingText,
+  Aurora,
+  SpotlightCard,
+  Magnet,
+  TiltCard,
+  LettersPullUp,
+  WordsPullUp
+} from '../components/reactbits';
+
+import { 
+  CodeBracketIcon, 
+  RocketLaunchIcon, 
+  StarIcon,
+  ChevronDownIcon,
+  PlayIcon,
+  SparklesIcon,
+  HeartIcon,
+  FireIcon,
+  BoltIcon,
+  ArrowDownTrayIcon
+} from '@heroicons/react/24/outline';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const heroRef = useRef();
+  const skillsRef = useRef();
+  const projectsRef = useRef();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  useEffect(() => {
+    setIsLoaded(true);
+    
+    // Mouse tracking for interactive effects
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Hero animation with enhanced effects
+    const tl = gsap.timeline();
+    tl.from('.hero-title', { 
+      y: 100, 
+      opacity: 0, 
+      duration: 1.2, 
+      ease: 'power3.out',
+      rotationX: 15
+    })
+    .from('.hero-subtitle', { 
+      y: 50, 
+      opacity: 0, 
+      duration: 1, 
+      ease: 'power3.out' 
+    }, '-=0.8')
+    .from('.hero-buttons', { 
+      y: 30, 
+      opacity: 0, 
+      duration: 0.8, 
+      ease: 'power3.out' 
+    }, '-=0.5')
+    .from('.floating-elements', {
+      scale: 0,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.1,
+      ease: 'back.out(1.7)'
+    }, '-=0.3');
+
+    // Enhanced skills animation
+    gsap.from('.skill-item', {
+      scrollTrigger: {
+        trigger: skillsRef.current,
+        start: 'top 80%',
+      },
+      y: 100,
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out'
+    });
+
+    // Enhanced projects animation
+    gsap.from('.project-item', {
+      scrollTrigger: {
+        trigger: projectsRef.current,
+        start: 'top 80%',
+      },
+      y: 100,
+      opacity: 0,
+      rotationY: 15,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power3.out'
+    });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const skills = [
+    { name: 'React', level: 95, color: 'bg-blue-500' },
+    { name: 'Next.js', level: 90, color: 'bg-gray-800' },
+    { name: 'TypeScript', level: 85, color: 'bg-blue-600' },
+    { name: 'Tailwind CSS', level: 92, color: 'bg-cyan-500' },
+    { name: 'Node.js', level: 88, color: 'bg-green-600' },
+    { name: 'Python', level: 80, color: 'bg-yellow-500' },
+  ];
+
+  const projects = [
+    {
+      title: 'E-Commerce Platform',
+      description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB',
+      image: '/images/project1.jpg',
+      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      featured: true
+    },
+    {
+      title: 'Task Management App',
+      description: 'A collaborative task management application with real-time updates',
+      image: '/images/project2.jpg',
+      technologies: ['Next.js', 'Socket.io', 'PostgreSQL'],
+      featured: false
+    },
+    {
+      title: 'Portfolio Website',
+      description: 'Modern portfolio website with animations and responsive design',
+      image: '/images/project3.jpg',
+      technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS'],
+      featured: false
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-base-100 relative overflow-hidden">
+      <Header />
+      
+      {/* Interactive Background */}
+      <ParticleBackground />
+      <FloatingElements />
+      
+      {/* Ultra-Modern Hero Section */}
+      <motion.section 
+        ref={heroRef} 
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        style={{ y, opacity }}
+      >
+        {/* Sophisticated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent" />
+        
+        {/* Animated Geometric Shapes */}
+        <motion.div 
+          className="absolute top-20 left-20 w-32 h-32 border border-blue-400/30 rotate-45"
+          animate={{
+            rotate: [45, 405],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-32 left-32 w-40 h-40 border-2 border-cyan-400/40 rounded-full"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Glassmorphism Elements */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10" />
+        
+        {/* Mouse-following glow effect */}
+        <motion.div
+          className="absolute w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl pointer-events-none"
+          animate={{
+            x: mousePosition.x - 192,
+            y: mousePosition.y - 192,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 50,
+            damping: 15
+          }}
+        />
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          {/* Modern Typography */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="hero-title"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <motion.div
+              className="inline-block mb-4 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <span className="text-sm font-medium text-white/80">Available for work</span>
+            </motion.div>
+            
+            <motion.h1 
+              className="text-6xl md:text-8xl lg:text-9xl font-bold font-display mb-6 leading-tight"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.span 
+                className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+                animate={{ 
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                }}
+                transition={{ 
+                  duration: 4, 
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                Creative
+              </motion.span>
+              <br />
+              <motion.span 
+                className="text-white"
+                whileHover={{ color: "#60a5fa" }}
+                transition={{ duration: 0.3 }}
+              >
+                Developer
+              </motion.span>
+            </motion.h1>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
           >
-            Read our docs
-          </a>
+            Crafting exceptional digital experiences with cutting-edge technologies.
+            <br className="hidden md:block" />
+            <span className="text-white/60">Let's build the future together.</span>
+          </motion.p>
+          
+          {/* Modern Button Group */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          >
+            <motion.button
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)",
+                y: -3
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                whileHover={{ scale: 1.1 }}
+              />
+              <span className="relative z-10 flex items-center text-lg">
+                <RocketLaunchIcon className="h-6 w-6 mr-3" />
+                View My Work
+              </span>
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(255, 255, 255, 0.2)",
+                y: -3
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-8 py-4 bg-white/10 backdrop-blur-xl text-white font-semibold rounded-2xl border border-white/20 overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                whileHover={{ scale: 1.1 }}
+              />
+              <span className="relative z-10 flex items-center text-lg">
+                <PlayIcon className="h-6 w-6 mr-3" />
+                Watch Demo
+              </span>
+            </motion.button>
+
+            <motion.a 
+              href="/resume.pdf" 
+              download
+              whileHover={{ 
+                scale: 1.05,
+                y: -3
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-8 py-4 bg-transparent text-white/80 font-semibold rounded-2xl border border-white/30 hover:border-white/60 transition-all duration-300"
+            >
+              <span className="flex items-center text-lg">
+                <ArrowDownTrayIcon className="h-6 w-6 mr-3" />
+                Download Resume
+              </span>
+            </motion.a>
+          </motion.div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        
+        {/* Modern Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="flex flex-col items-center text-white/60 cursor-pointer group"
+            whileHover={{ scale: 1.1, color: "#60a5fa" }}
+          >
+            <span className="text-sm mb-3 font-medium">Scroll to explore</span>
+            <motion.div
+              className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center"
+              whileHover={{ borderColor: "#60a5fa" }}
+            >
+              <motion.div
+                className="w-1 h-3 bg-white/60 rounded-full mt-2"
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* Ultra-Modern Skills Section with ReactBits */}
+      <section ref={skillsRef} className="py-32 bg-gradient-to-br from-slate-50 to-blue-50 relative overflow-hidden">
+        {/* Sophisticated Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-full opacity-40" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+        
+        {/* Floating Elements */}
+        <motion.div 
+          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-2xl"
+          animate={{
+            y: [0, -20, 0],
+            x: [0, 10, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-2xl"
+          animate={{
+            y: [0, 20, 0],
+            x: [0, -10, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimationWrapper className="text-center mb-20">
+            <motion.div
+              className="inline-block mb-6 px-6 py-3 bg-white/80 backdrop-blur-xl rounded-full border border-blue-200/50 shadow-lg"
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <DecryptedText 
+                text="Technical Expertise" 
+                className="text-sm font-semibold text-blue-600"
+                speed={40}
+              />
+            </motion.div>
+            
+            {/* ReactBits LettersPullUp Animation */}
+            <h2 className="text-5xl md:text-7xl font-bold font-display mb-8">
+              <GradientText 
+                colors={['#2563eb', '#7c3aed', '#db2777', '#2563eb']}
+                animationSpeed={5}
+              >
+                <LettersPullUp text="Skills" delay={0.2} />
+              </GradientText>
+              <span className="text-slate-800 ml-4">
+                <LettersPullUp text="& Expertise" delay={0.5} />
+              </span>
+            </h2>
+            <div className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              <WordsPullUp 
+                text="Mastering the latest technologies to deliver exceptional digital experiences that push the boundaries of what's possible."
+                delay={0.3}
+              />
+            </div>
+          </AnimationWrapper>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skills.map((skill, index) => (
+              <TiltCard 
+                key={skill.name}
+                className="skill-item"
+                tiltAmount={10}
+                glareEnable={true}
+                glareMaxOpacity={0.2}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.15 }}
+                  className="group relative bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer border border-white/50 overflow-hidden"
+                >
+                  {/* Gradient overlay on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    initial={{ scale: 0 }}
+                    whileHover={{ scale: 1 }}
+                  />
+                  
+                  {/* Animated border */}
+                  <motion.div
+                    className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ padding: '2px' }}
+                  >
+                    <div className="w-full h-full bg-white/80 backdrop-blur-xl rounded-3xl" />
+                  </motion.div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex justify-between items-center mb-6">
+                      <motion.h3 
+                        className="text-2xl font-bold text-slate-800"
+                        whileHover={{ color: "#3b82f6" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {skill.name}
+                      </motion.h3>
+                      <motion.div
+                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-bold rounded-full"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {skill.level}%
+                      </motion.div>
+                    </div>
+                    
+                    {/* Modern progress bar */}
+                    <div className="relative w-full bg-slate-200 rounded-full h-4 overflow-hidden mb-4">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        transition={{ duration: 2, delay: index * 0.1, ease: "easeOut" }}
+                        className={`h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 relative overflow-hidden`}
+                      >
+                        {/* Shimmer effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                          animate={{ x: ["-100%", "100%"] }}
+                          transition={{ 
+                            duration: 2, 
+                            delay: 2 + index * 0.1,
+                            repeat: Infinity,
+                            repeatDelay: 4
+                          }}
+                        />
+                      </motion.div>
+                    </div>
+                    
+                    {/* Skill level indicators */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-500 font-medium">Proficiency</span>
+                      <div className="flex space-x-1">
+                        {[...Array(5)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className={`w-3 h-3 rounded-full ${
+                              i < Math.floor(skill.level / 20) 
+                                ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                                : 'bg-slate-300'
+                            }`}
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 2.5 + index * 0.1 + i * 0.1 }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ultra-Modern Projects Section with ReactBits */}
+      <section ref={projectsRef} className="py-32 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+        {/* ReactBits Aurora Background */}
+        <Aurora 
+          colorStops={['#1e40af', '#7c3aed', '#be185d']} 
+          blend={0.2} 
+          amplitude={0.8} 
+          speed={0.3}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-full opacity-30" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M20 20c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z'/%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+        
+        {/* Floating Geometric Shapes */}
+        <motion.div 
+          className="absolute top-20 left-20 w-16 h-16 border border-blue-400/30 rotate-45"
+          animate={{
+            rotate: [45, 405],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-20 w-12 h-12 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl"
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimationWrapper className="text-center mb-20">
+            <motion.div
+              className="inline-block mb-6 px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-lg"
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <DecryptedText 
+                text="Featured Work" 
+                className="text-sm font-semibold text-white/80"
+                speed={40}
+              />
+            </motion.div>
+            
+            {/* ReactBits SplitText Animation */}
+            <h2 className="text-5xl md:text-7xl font-bold font-display mb-8">
+              <span className="text-white">
+                <SplitText 
+                  text="Featured" 
+                  delay={0.2}
+                  animationFrom={{ opacity: 0, transform: 'translate3d(0,40px,0)' }}
+                  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                />
+              </span>
+              <GradientText 
+                colors={['#60a5fa', '#a855f7', '#ec4899', '#60a5fa']}
+                animationSpeed={4}
+                className="ml-4"
+              >
+                <SplitText 
+                  text="Projects" 
+                  delay={0.5}
+                  animationFrom={{ opacity: 0, transform: 'translate3d(0,40px,0)' }}
+                  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                />
+              </GradientText>
+            </h2>
+            <div className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+              <BlurText 
+                text="A showcase of innovative projects that demonstrate my expertise in modern web development and creative problem-solving."
+                delay={0.6}
+                animateBy="words"
+              />
+            </div>
+          </AnimationWrapper>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                className={`project-item group relative ${project.featured ? 'md:col-span-2' : ''}`}
+              >
+                {/* ReactBits SpotlightCard */}
+                <SpotlightCard 
+                  className="h-full"
+                  spotlightColor="rgba(99, 102, 241, 0.4)"
+                >
+                  <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-500">
+                    {/* Project Image */}
+                    <div className="relative overflow-hidden h-64">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      {/* Overlay Content */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="flex space-x-4">
+                          <Magnet padding={20} magnetStrength={0.2}>
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="px-6 py-3 bg-white/20 backdrop-blur-xl text-white font-semibold rounded-xl border border-white/30 hover:bg-white/30 transition-all duration-300"
+                            >
+                              View Project
+                            </motion.button>
+                          </Magnet>
+                          <Magnet padding={20} magnetStrength={0.2}>
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="px-6 py-3 bg-transparent text-white font-semibold rounded-xl border border-white/50 hover:bg-white/10 transition-all duration-300"
+                            >
+                              View Code
+                            </motion.button>
+                          </Magnet>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Project Content */}
+                    <div className="p-8">
+                      <motion.h3 
+                        className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors duration-300"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        {project.title}
+                      </motion.h3>
+                      <p className="text-white/70 mb-6 leading-relaxed">
+                        {project.description}
+                      </p>
+                      
+                      {/* Technology Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.technologies.map((tech) => (
+                          <motion.span
+                            key={tech}
+                            className="px-4 py-2 bg-white/10 backdrop-blur-xl text-white/80 text-sm font-medium rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+                      
+                      {/* Action Buttons */}
+                      <div className="flex space-x-3">
+                        <motion.button 
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          View Project
+                        </motion.button>
+                        <motion.button 
+                          className="flex-1 bg-transparent text-white px-6 py-3 rounded-xl font-semibold border border-white/30 hover:bg-white/10 transition-all duration-300"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          View Code
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ultra-Modern Contact Section with ReactBits */}
+      <section className="py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+        {/* Sophisticated Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-full opacity-40" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+        
+        {/* Floating Elements */}
+        <motion.div 
+          className="absolute top-20 left-20 w-20 h-20 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-2xl"
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-20 w-32 h-32 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-2xl"
+          animate={{
+            y: [0, 30, 0],
+            x: [0, -20, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <AnimationWrapper className="text-center mb-20">
+              <motion.div
+                className="inline-block mb-6 px-6 py-3 bg-white/80 backdrop-blur-xl rounded-full border border-blue-200/50 shadow-lg"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <DecryptedText 
+                  text="Let's Connect" 
+                  className="text-sm font-semibold text-blue-600"
+                  speed={40}
+                />
+              </motion.div>
+              
+              {/* ReactBits LettersPullUp for Contact Title */}
+              <h2 className="text-5xl md:text-7xl font-bold font-display mb-8">
+                <span className="text-slate-800">
+                  <LettersPullUp text="Ready to" delay={0.2} />
+                </span>
+                <GradientText 
+                  colors={['#2563eb', '#7c3aed', '#db2777', '#2563eb']}
+                  animationSpeed={4}
+                  className="mx-4"
+                >
+                  {/* ReactBits RotatingText for dynamic words */}
+                  <RotatingText 
+                    texts={['Start', 'Build', 'Create', 'Launch']}
+                    rotationInterval={2500}
+                    className="font-bold"
+                  />
+                </GradientText>
+                <span className="text-slate-800">
+                  <LettersPullUp text="Your Project?" delay={0.6} />
+                </span>
+              </h2>
+              <div className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                <WordsPullUp 
+                  text="Let's work together to bring your ideas to life with cutting-edge web technologies."
+                  delay={0.3}
+                />
+                <br className="hidden md:block" />
+                <span className="text-slate-500 block mt-2">
+                  <BlurText 
+                    text="Send me a message and I'll get back to you within 24 hours."
+                    delay={0.8}
+                    animateBy="words"
+                  />
+                </span>
+              </div>
+            </AnimationWrapper>
+            
+            <InteractiveContactForm />
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }

@@ -1,0 +1,24 @@
+npm # Placeholder Images
+
+Add your project images to this directory:
+
+- project1.jpg - E-Commerce Platform screenshot
+- project2.jpg - Task Management App screenshot  
+- project3.jpg - Portfolio Website screenshot
+- project4.jpg - Mobile Banking App screenshot
+- project5.jpg - UI/UX Design System screenshot
+- project6.jpg - Real-time Chat App screenshot
+
+## Image Requirements:
+- Format: JPG or PNG
+- Size: 800x600px minimum
+- Optimize for web (compress before adding)
+- Use descriptive filenames
+
+## Recommended Tools:
+- Photoshop/GIMP for editing
+- TinyPNG for compression
+- Unsplash for stock photos
+
+
+
