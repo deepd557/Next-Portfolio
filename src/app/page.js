@@ -29,7 +29,6 @@ import {
 import { 
   CodeBracketIcon, 
   RocketLaunchIcon, 
-  StarIcon,
   ChevronDownIcon,
   PlayIcon,
   SparklesIcon,
@@ -38,6 +37,7 @@ import {
   BoltIcon,
   ArrowDownTrayIcon
 } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -135,25 +135,26 @@ export default function Home() {
     { name: 'Python', level: 80, color: 'bg-yellow-500' },
   ];
 
+  // Demo project data - Replace images with your own project screenshots
   const projects = [
     {
       title: 'E-Commerce Platform',
       description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB',
-      image: '/images/project1.jpg',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       featured: true
     },
     {
       title: 'Task Management App',
       description: 'A collaborative task management application with real-time updates',
-      image: '/images/project2.jpg',
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['Next.js', 'Socket.io', 'PostgreSQL'],
       featured: false
     },
     {
       title: 'Portfolio Website',
       description: 'Modern portfolio website with animations and responsive design',
-      image: '/images/project3.jpg',
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS'],
       featured: false
     }
@@ -734,8 +735,109 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Ultra-Modern Contact Section with ReactBits */}
+      {/* Testimonials Section */}
       <section className="py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-100/50 via-transparent to-transparent" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <AnimationWrapper className="text-center mb-16">
+            <motion.div
+              className="inline-block mb-6 px-6 py-3 bg-white/80 backdrop-blur-xl rounded-full border border-purple-200/50 shadow-lg"
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-sm font-semibold text-purple-600">Client Testimonials</span>
+            </motion.div>
+            
+            <h2 className="text-5xl md:text-7xl font-bold font-display mb-8">
+              <span className="text-slate-800">What People</span>
+              <GradientText 
+                colors={['#7c3aed', '#db2777', '#2563eb', '#7c3aed']}
+                animationSpeed={4}
+                className="ml-4"
+              >
+                Say
+              </GradientText>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Don't just take my word for it. Here's what clients and colleagues have to say.
+            </p>
+          </AnimationWrapper>
+          
+          {/* Demo Testimonials - Replace with your real testimonials */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: 'Sarah Johnson',
+                role: 'Product Manager',
+                company: 'TechCorp',
+                content: 'Working with this developer was an absolute pleasure. They delivered beyond our expectations with clean code and beautiful design.',
+                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face', // DEMO: Replace with real client photo
+                rating: 5
+              },
+              {
+                name: 'Michael Chen',
+                role: 'CEO',
+                company: 'StartupXYZ',
+                content: 'Exceptional technical skills combined with great communication. Our project was delivered on time and exceeded all requirements.',
+                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face', // DEMO: Replace with real client photo
+                rating: 5
+              },
+              {
+                name: 'Emily Davis',
+                role: 'Design Lead',
+                company: 'CreativeStudio',
+                content: 'The attention to detail and understanding of modern UI/UX principles made this collaboration incredibly smooth and successful.',
+                avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face', // DEMO: Replace with real client photo
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={testimonial.name}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-300"
+              >
+                {/* Quote Icon */}
+                <div className="text-4xl text-purple-300 mb-4">"</div>
+                
+                {/* Rating Stars */}
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <StarIcon key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                
+                {/* Content */}
+                <p className="text-slate-600 mb-6 leading-relaxed italic">
+                  {testimonial.content}
+                </p>
+                
+                {/* Author */}
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border-2 border-purple-200">
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">{testimonial.name}</h4>
+                    <p className="text-sm text-slate-500">{testimonial.role} at {testimonial.company}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ultra-Modern Contact Section with ReactBits */}
+      <section className="py-32 bg-gradient-to-br from-white via-slate-50 to-blue-50 relative overflow-hidden">
         {/* Sophisticated Background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent" />
         <div className="absolute top-0 left-0 w-full h-full opacity-40" style={{

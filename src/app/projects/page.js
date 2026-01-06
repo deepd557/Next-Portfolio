@@ -27,71 +27,72 @@ export default function Projects() {
 
   const categories = ['all', 'web', 'mobile', 'fullstack', 'design'];
 
+  // Demo project data - Replace images and URLs with your own
   const projects = [
     {
       id: 1,
       title: 'E-Commerce Platform',
       description: 'A comprehensive e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment processing, inventory management, and admin dashboard.',
-      image: '/images/project1.jpg',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
       category: 'fullstack',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: true
     },
     {
       id: 2,
       title: 'Task Management App',
       description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
-      image: '/images/project2.jpg',
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['Next.js', 'Socket.io', 'PostgreSQL', 'Prisma'],
       category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     },
     {
       id: 3,
       title: 'Portfolio Website',
       description: 'Modern portfolio website with smooth animations, responsive design, and optimized performance using Next.js and Framer Motion.',
-      image: '/images/project3.jpg',
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'GSAP'],
       category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     },
     {
       id: 4,
       title: 'Mobile Banking App',
       description: 'Secure mobile banking application with biometric authentication, transaction history, and real-time notifications.',
-      image: '/images/project4.jpg',
+      image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['React Native', 'Node.js', 'PostgreSQL', 'JWT'],
       category: 'mobile',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: true
     },
     {
       id: 5,
       title: 'UI/UX Design System',
       description: 'Comprehensive design system with reusable components, style guide, and design tokens for consistent user experiences.',
-      image: '/images/project5.jpg',
+      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['Figma', 'Storybook', 'React', 'TypeScript'],
       category: 'design',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     },
     {
       id: 6,
       title: 'Real-time Chat App',
       description: 'Real-time messaging application with file sharing, emoji reactions, and group chat functionality.',
-      image: '/images/project6.jpg',
+      image: 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['React', 'Socket.io', 'Express', 'MongoDB'],
       category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     }
   ];

@@ -126,6 +126,27 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
         <div className="container mx-auto px-4 relative z-10">
           <AnimationWrapper className="text-center">
+            {/* Profile Image - DEMO: Replace with your own photo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="relative inline-block">
+                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl mx-auto">
+                  {/* DEMO: Replace this URL with your profile photo */}
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                    alt="Profile Photo"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Decorative ring */}
+                <div className="absolute inset-0 rounded-full border-2 border-dashed border-primary/30 animate-spin-slow" style={{ animationDuration: '20s' }} />
+              </div>
+            </motion.div>
+            
             <h1 className="text-5xl md:text-6xl font-bold font-display mb-6">
               About <span className="gradient-text">Me</span>
             </h1>
@@ -183,15 +204,15 @@ export default function About() {
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <span>Years of Experience</span>
-                        <span className="font-bold text-primary">4+</span>
+                        <span className="font-bold text-primary">3+</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Projects Completed</span>
-                        <span className="font-bold text-primary">50+</span>
+                        <span className="font-bold text-primary">10+</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Happy Clients</span>
-                        <span className="font-bold text-primary">30+</span>
+                        <span className="font-bold text-primary">1</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Coffee Consumed</span>

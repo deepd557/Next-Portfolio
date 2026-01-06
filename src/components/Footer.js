@@ -89,21 +89,21 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <EnvelopeIcon className="h-5 w-5 text-primary" />
-                <span className="text-base-content/70">your.email@example.com</span>
+                <span className="text-base-content/70">deepsavaliya347@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <PhoneIcon className="h-5 w-5 text-primary" />
-                <span className="text-base-content/70">+1 (555) 123-4567</span>
+                <span className="text-base-content/70">+91 8732902950</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPinIcon className="h-5 w-5 text-primary" />
-                <span className="text-base-content/70">Your City, Country</span>
+                <span className="text-base-content/70">Surat Gujarat, India</span>
               </div>
             </div>
           </motion.div>
 
           {/* Newsletter */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -127,7 +127,7 @@ export default function Footer() {
                 Subscribe
               </motion.button>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Bottom Bar */}
@@ -138,7 +138,7 @@ export default function Footer() {
           className="border-t border-base-300 mt-8 pt-8 text-center"
         >
           <p className="text-base-content/70">
-            © {currentYear} Portfolio. All rights reserved. Built with Next.js & Tailwind CSS.
+            © {currentYear} Portfolio. All rights reserved.
           </p>
         </motion.div>
       </div>
