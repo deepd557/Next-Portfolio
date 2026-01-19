@@ -1,4 +1,5 @@
 export const defaultSEO = {
+  metadataBase: new URL('http://localhost:3000'),
   title: 'Portfolio - Modern Web Developer',
   description: 'Professional portfolio showcasing modern web development projects, skills, and experience.',
   keywords: 'portfolio, web developer, react, next.js, javascript, frontend, fullstack',
