@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Header from '../components/Header';
@@ -35,7 +35,11 @@ import {
   HeartIcon,
   FireIcon,
   BoltIcon,
-  ArrowDownTrayIcon
+  ArrowDownTrayIcon,
+  LinkIcon,
+  ClipboardDocumentIcon,
+  ShareIcon,
+  CheckIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 
@@ -138,27 +142,100 @@ export default function Home() {
   // Demo project data - Replace images with your own project screenshots
   const projects = [
     {
+      title: 'IronTrac - Asset Lifecycle Management Platform',
+      description: 'Enterprise-grade platform managing the complete iron asset lifecycle from creation to NDT recertification. Built with Angular and .NET, featuring asset tracking, digital certifications, field operations management, and real-time inventory control. Integrated QR code tagging, mobile app, and comprehensive reporting system.',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop',
+      technologies: ['Angular', '.NET Core', 'SQL Server', 'REST APIs', 'Mobile App', 'QR Code Integration', 'Entity Framework'],
+      featured: true,
+      liveUrl: 'https://www.irontrac.com',
+      githubUrl: null,
+    },
+    {
+      title: 'AMPVIDA - AI-Powered Personal Health Coach',
+      description: 'AI-based personal healthcare assistant service with intelligent wellness coaching. Built with Next.js and AWS services, featuring real-time health tracking (sleep, heart rate, steps, calories, water intake), interactive AI chat interface, personalized health insights, and comprehensive wellness dashboard. Integrated AWS Cognito for secure authentication and GraphQL API for efficient data management.',
+      image: '/images/healtech.png',
+      technologies: ['Next.js', 'AWS Cognito', 'GraphQL', 'AWS Services', 'AI/ML', 'Health Tracking', 'Real-time Data'],
+      featured: true,
+      liveUrl: null,
+      githubUrl: null,
+    },
+    {
+      title: 'FixeMotor - Vehicle Garage Management ERP',
+      description: 'End-to-end ERP solution for complete vehicle garage management flow. Built with React.js and .NET Core, featuring service center management, customer booking system, location-based service search, digital workshop management (FixoPro), real-time service tracking, and comprehensive garage operations dashboard. Integrated SQL database for efficient data management and scalable architecture.',
+      image: '/images/fixomotor.png',
+      technologies: ['React.js', '.NET Core', 'SQL Server', 'REST APIs', 'ERP System', 'Location Services', 'Service Management'],
+      featured: true,
+      liveUrl: 'https://fixomotor.in/',
+      githubUrl: null,
+    },
+    {
       title: 'E-Commerce Platform',
       description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      featured: true
+      featured: false,
+      liveUrl: 'https://example.com',
+      githubUrl: 'https://github.com/example',
     },
     {
       title: 'Task Management App',
       description: 'A collaborative task management application with real-time updates',
-      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop',
       technologies: ['Next.js', 'Socket.io', 'PostgreSQL'],
-      featured: false
+      featured: false,
+      liveUrl: 'https://example.com',
+      githubUrl: 'https://github.com/example',
     },
     {
       title: 'Portfolio Website',
       description: 'Modern portfolio website with animations and responsive design',
-      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop',
       technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS'],
-      featured: false
+      featured: false,
+      liveUrl: 'https://example.com',
+      githubUrl: 'https://github.com/example',
     }
   ];
+
+  // Copy and Share functionality state
+  const [copiedUrl, setCopiedUrl] = useState(null);
+  const [showCopyPopup, setShowCopyPopup] = useState(false);
+
+  const handleCopyUrl = async (url) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedUrl(url);
+      setShowCopyPopup(true);
+      setTimeout(() => {
+        setShowCopyPopup(false);
+        setCopiedUrl(null);
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleShare = async (project) => {
+    const shareData = {
+      title: project.title,
+      text: project.description,
+      url: project.liveUrl || project.githubUrl,
+    };
+
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to copy
+        handleCopyUrl(shareData.url);
+      }
+    } catch (err) {
+      // User cancelled or error occurred, fallback to copy
+      if (err.name !== 'AbortError') {
+        handleCopyUrl(shareData.url);
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-base-100 relative overflow-hidden">
@@ -267,7 +344,7 @@ export default function Home() {
                   ease: "linear"
                 }}
               >
-                Creative
+                Full Stack
               </motion.span>
               <br />
               <motion.span 
@@ -280,16 +357,65 @@ export default function Home() {
             </motion.h1>
           </motion.div>
           
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed"
           >
-            Crafting exceptional digital experiences with cutting-edge technologies.
+            <motion.p
+              className="text-white mb-3 font-medium"
+              style={{
+                textShadow: '0 2px 15px rgba(0, 0, 0, 0.6), 0 4px 25px rgba(0, 0, 0, 0.4)'
+              }}
+            >
+              Building{' '}
+              <motion.span
+                className="text-blue-300 font-semibold"
+                whileHover={{ 
+                  color: "#60a5fa",
+                  textShadow: '0 0 15px rgba(96, 165, 250, 0.6)'
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                end-to-end solutions
+              </motion.span>
+              {' '}with modern{' '}
+              <motion.span
+                className="text-purple-300 font-semibold"
+                whileHover={{ 
+                  color: "#a78bfa",
+                  textShadow: '0 0 15px rgba(167, 139, 250, 0.6)'
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                frontend and backend
+              </motion.span>
+              {' '}technologies.
+            </motion.p>
             <br className="hidden md:block" />
-            <span className="text-white/60">Let's build the future together.</span>
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-white font-medium"
+              style={{
+                textShadow: '0 2px 15px rgba(0, 0, 0, 0.6), 0 4px 25px rgba(0, 0, 0, 0.4)'
+              }}
+            >
+              <motion.span
+                className="text-cyan-300 font-semibold"
+                whileHover={{ 
+                  color: "#22d3ee",
+                  textShadow: '0 0 15px rgba(34, 211, 238, 0.6)'
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                Full stack development expertise
+              </motion.span>
+              {' '}to bring your ideas to life.
+            </motion.p>
+          </motion.div>
           
           {/* Modern Button Group */}
           <motion.div
@@ -317,7 +443,7 @@ export default function Home() {
               </span>
             </motion.button>
             
-            <motion.button
+            {/* <motion.button
               whileHover={{ 
                 scale: 1.05,
                 boxShadow: "0 20px 40px rgba(255, 255, 255, 0.2)",
@@ -334,11 +460,18 @@ export default function Home() {
                 <PlayIcon className="h-6 w-6 mr-3" />
                 Watch Demo
               </span>
-            </motion.button>
+            </motion.button> */}
 
-            <motion.a 
-              href="/resume.pdf" 
-              download
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                const link = document.createElement('a');
+                link.href = '/resume.pdf';
+                link.download = 'resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
               whileHover={{ 
                 scale: 1.05,
                 y: -3
@@ -350,7 +483,7 @@ export default function Home() {
                 <ArrowDownTrayIcon className="h-6 w-6 mr-3" />
                 Download Resume
               </span>
-            </motion.a>
+            </motion.button>
           </motion.div>
         </div>
         
@@ -710,21 +843,66 @@ export default function Home() {
                       </div>
                       
                       {/* Action Buttons */}
-                      <div className="flex space-x-3">
-                        <motion.button 
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          View Project
-                        </motion.button>
-                        <motion.button 
-                          className="flex-1 bg-transparent text-white px-6 py-3 rounded-xl font-semibold border border-white/30 hover:bg-white/10 transition-all duration-300"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          View Code
-                        </motion.button>
+                      <div className="flex items-center justify-center gap-3">
+                        {/* URL/Open Link Button */}
+                        {project.liveUrl && (
+                          <motion.a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                            title="Open URL"
+                          >
+                            <LinkIcon className="h-5 w-5" />
+                          </motion.a>
+                        )}
+
+                        {/* Copy URL Button */}
+                        {project.liveUrl && (
+                          <motion.button
+                            onClick={() => handleCopyUrl(project.liveUrl)}
+                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-3 bg-white/10 backdrop-blur-xl text-white rounded-xl border border-white/30 hover:bg-white/20 transition-all duration-300"
+                            title="Copy URL"
+                          >
+                            {copiedUrl === project.liveUrl ? (
+                              <CheckIcon className="h-5 w-5 text-green-400" />
+                            ) : (
+                              <ClipboardDocumentIcon className="h-5 w-5" />
+                            )}
+                          </motion.button>
+                        )}
+
+                        {/* Share Button */}
+                        {(project.liveUrl || project.githubUrl) && (
+                          <motion.button
+                            onClick={() => handleShare(project)}
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-3 bg-white/10 backdrop-blur-xl text-white rounded-xl border border-white/30 hover:bg-white/20 transition-all duration-300"
+                            title="Share"
+                          >
+                            <ShareIcon className="h-5 w-5" />
+                          </motion.button>
+                        )}
+
+                        {/* View Code Button */}
+                        {project.githubUrl && (
+                          <motion.a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-3 bg-white/10 backdrop-blur-xl text-white rounded-xl border border-white/30 hover:bg-white/20 transition-all duration-300"
+                            title="View Code"
+                          >
+                            <CodeBracketIcon className="h-5 w-5" />
+                          </motion.a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -927,6 +1105,30 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Copy URL Popup Notification */}
+      <AnimatePresence>
+        {showCopyPopup && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.8 }}
+            className="fixed bottom-8 right-8 z-50 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 backdrop-blur-xl border border-white/20"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+            >
+              <CheckIcon className="h-6 w-6" />
+            </motion.div>
+            <div>
+              <p className="font-semibold">URL Copied!</p>
+              <p className="text-sm text-white/90">Link copied to clipboard</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>
