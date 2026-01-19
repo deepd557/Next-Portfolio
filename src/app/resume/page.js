@@ -22,6 +22,17 @@ export default function ResumePage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Download resume function
+  const handleDownload = (e) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'resume.pdf'; // Specify the filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-base-100">
       <Header />
@@ -43,21 +54,24 @@ export default function ResumePage() {
           </AnimationWrapper>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8">
-            <a
+            <motion.a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn btn-primary flex items-center justify-center"
             >
               <DocumentIcon className="h-5 w-5 mr-2" /> Open in new tab
-            </a>
-            <a
-              href="/resume.pdf"
-              download
-              className="btn btn-outline"
+            </motion.a>
+            <motion.button
+              onClick={handleDownload}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn btn-outline flex items-center justify-center"
             >
               <ArrowDownTrayIcon className="h-5 w-5 mr-2" /> Download PDF
-            </a>
+            </motion.button>
           </div>
 
           <div className="bg-base-200 rounded-xl shadow-lg overflow-hidden">

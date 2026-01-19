@@ -19,4 +19,5 @@ export { default as Spotlight } from './Spotlight';
 export { default as SpotlightCard } from './SpotlightCard';
 export { default as Magnet } from './Magnet';
 export { default as TiltCard } from './TiltCard';
+export { default as Stepper } from './Stepper';
 

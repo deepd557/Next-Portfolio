@@ -27,71 +27,105 @@ export default function Projects() {
 
   const categories = ['all', 'web', 'mobile', 'fullstack', 'design'];
 
+  // Demo project data - Replace images and URLs with your own
   const projects = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      description: 'A comprehensive e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment processing, inventory management, and admin dashboard.',
-      image: '/images/project1.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
+      title: 'IronTrac - Asset Lifecycle Management Platform',
+      description: 'Enterprise-grade asset management platform designed for iron asset tracking, certification, and operations. Developed as a full-stack Angular and .NET solution, managing the complete lifecycle from manufacturing to NDT recertification. The platform includes multiple specialized modules: Recert for NDT recertification with UT/hydro data capture, Core for centralized asset management, Field Ops for field operations with inventory check-in/out, Forge for manufacturing traceability, and Strong for digital pressure testing. Implemented QR code tagging system, mobile application for field crews, comprehensive reporting dashboards, and real-time asset tracking across multiple locations. Features audit-ready records, third-party certificate generation, digital MTR/CoC management, and customer visibility portals.',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop',
+      technologies: ['Angular', '.NET Core', 'SQL Server', 'REST APIs', 'Entity Framework', 'TypeScript', 'RxJS', 'Material UI', 'Mobile App Development', 'QR Code Integration', 'Reporting Engine'],
       category: 'fullstack',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: 'https://www.irontrac.com',
+      githubUrl: null,
       featured: true
     },
     {
       id: 2,
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
-      image: '/images/project2.jpg',
-      technologies: ['Next.js', 'Socket.io', 'PostgreSQL', 'Prisma'],
-      category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false
-    },
-    {
-      id: 3,
-      title: 'Portfolio Website',
-      description: 'Modern portfolio website with smooth animations, responsive design, and optimized performance using Next.js and Framer Motion.',
-      image: '/images/project3.jpg',
-      technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'GSAP'],
-      category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Mobile Banking App',
-      description: 'Secure mobile banking application with biometric authentication, transaction history, and real-time notifications.',
-      image: '/images/project4.jpg',
-      technologies: ['React Native', 'Node.js', 'PostgreSQL', 'JWT'],
-      category: 'mobile',
-      liveUrl: '#',
-      githubUrl: '#',
+      title: 'AMPVIDA - AI-Powered Personal Health Coach',
+      description: 'AI-based personal healthcare assistant service providing intelligent wellness coaching and comprehensive health tracking. Built with Next.js and AWS cloud services, featuring an interactive AI chat interface that responds to user queries about sleep patterns, heart rate, daily steps, calories burned, and water intake. The platform includes real-time health data visualization, personalized wellness insights, and a comprehensive dashboard for tracking multiple health metrics. Implemented AWS Cognito for secure user authentication and authorization, GraphQL API for efficient data querying and mutations, and AWS Console services for scalable cloud infrastructure. Features include 2-minute health assessments, AI-powered wellness recommendations, character-limited chat interface (256 characters), and medical disclaimers. The application provides users with detailed health analytics including sleep duration tracking, average heart rate monitoring, step counting, calorie burn estimation, and water consumption tracking in multiple units (fl oz, ml, liters).',
+      image: '/images/healtech.png',
+      technologies: ['Next.js', 'AWS Cognito', 'GraphQL', 'AWS Console Services', 'AWS Lambda', 'AWS AppSync', 'AI/ML Integration', 'Real-time Data Processing', 'Health Tracking APIs', 'TypeScript', 'React Hooks', 'State Management'],
+      category: 'fullstack',
+      liveUrl: null,
+      githubUrl: null,
       featured: true
     },
     {
+      id: 3,
+      title: 'FixeMotor - Vehicle Garage Management ERP',
+      description: 'Comprehensive end-to-end ERP solution designed for complete vehicle garage management flow. Built with React.js frontend and .NET Core backend, featuring a full-service platform that connects customers with trusted service centers. The system includes location-based service search with pincode and GPS integration, customer booking and service request management, digital workshop management through FixoPro module, real-time service tracking and status updates, customer and service center dashboards, WhatsApp integration for customer support, AI-powered chatbot (FixoBot) for 24/7 assistance, service history and records management, and comprehensive reporting and analytics. The platform enables seamless communication between customers and service centers, provides transparent service pricing, and streamlines the entire vehicle service workflow from booking to completion. Implemented with SQL Server database for robust data management, RESTful APIs for efficient communication, and responsive design for mobile and web access.',
+      image: '/images/fixomotor.png',
+      technologies: ['React.js', '.NET Core', 'SQL Server', 'Entity Framework', 'REST APIs', 'Location Services', 'GPS Integration', 'WhatsApp API', 'AI Chatbot', 'ERP System', 'Service Management', 'Real-time Tracking', 'TypeScript', 'State Management'],
+      category: 'fullstack',
+      liveUrl: 'https://fixomotor.in/',
+      githubUrl: null,
+      featured: true
+    },
+    {
+      id: 4,
+      title: 'E-Commerce Platform',
+      description: 'A comprehensive e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment processing, inventory management, and admin dashboard.',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
+      category: 'fullstack',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
+      featured: false
+    },
+    {
       id: 5,
-      title: 'UI/UX Design System',
-      description: 'Comprehensive design system with reusable components, style guide, and design tokens for consistent user experiences.',
-      image: '/images/project5.jpg',
-      technologies: ['Figma', 'Storybook', 'React', 'TypeScript'],
-      category: 'design',
-      liveUrl: '#',
-      githubUrl: '#',
+      title: 'Task Management App',
+      description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      technologies: ['Next.js', 'Socket.io', 'PostgreSQL', 'Prisma'],
+      category: 'web',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     },
     {
       id: 6,
+      title: 'Portfolio Website',
+      description: 'Modern portfolio website with smooth animations, responsive design, and optimized performance using Next.js and Framer Motion.',
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'GSAP'],
+      category: 'web',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
+      featured: false
+    },
+    {
+      id: 7,
+      title: 'Mobile Banking App',
+      description: 'Secure mobile banking application with biometric authentication, transaction history, and real-time notifications.',
+      image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      technologies: ['React Native', 'Node.js', 'PostgreSQL', 'JWT'],
+      category: 'mobile',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
+      featured: true
+    },
+    {
+      id: 8,
+      title: 'UI/UX Design System',
+      description: 'Comprehensive design system with reusable components, style guide, and design tokens for consistent user experiences.',
+      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
+      technologies: ['Figma', 'Storybook', 'React', 'TypeScript'],
+      category: 'design',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
+      featured: false
+    },
+    {
+      id: 9,
       title: 'Real-time Chat App',
       description: 'Real-time messaging application with file sharing, emoji reactions, and group chat functionality.',
-      image: '/images/project6.jpg',
+      image: 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=600&fit=crop', // DEMO: Replace with your project screenshot
       technologies: ['React', 'Socket.io', 'Express', 'MongoDB'],
       category: 'web',
-      liveUrl: '#',
-      githubUrl: '#',
+      liveUrl: '#', // DEMO: Add your live URL
+      githubUrl: '#', // DEMO: Add your GitHub URL
       featured: false
     }
   ];

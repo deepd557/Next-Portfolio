@@ -126,6 +126,76 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
         <div className="container mx-auto px-4 relative z-10">
           <AnimationWrapper className="text-center">
+            {/* Profile Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="relative inline-block">
+                {/* Outer glow effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-accent to-primary opacity-20 blur-2xl"
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.2, 0.3, 0.2]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                {/* Image container with filters */}
+                <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-primary/30 shadow-2xl mx-auto group">
+                  {/* Image with filters */}
+                  <motion.img
+                    src="/images/profile.jpg"
+                    alt="Profile Photo"
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                    style={{
+                      filter: 'brightness(1.05) contrast(1.1) saturate(1.15)',
+                    }}
+                    whileHover={{
+                      filter: 'brightness(1.1) contrast(1.15) saturate(1.2)',
+                    }}
+                    onError={(e) => {
+                      // Fallback if image doesn't exist
+                      e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face";
+                    }}
+                  />
+                  
+                  {/* Overlay gradient for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Shine effect on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: '100%' }}
+                    transition={{ duration: 0.6 }}
+                  />
+                </div>
+                
+                {/* Decorative animated ring */}
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-dashed border-primary/40"
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                {/* Inner decorative dots */}
+                <div className="absolute top-2 right-2 w-3 h-3 bg-primary rounded-full animate-pulse" />
+                <div className="absolute bottom-2 left-2 w-2 h-2 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+              </div>
+            </motion.div>
+            
             <h1 className="text-5xl md:text-6xl font-bold font-display mb-6">
               About <span className="gradient-text">Me</span>
             </h1>
@@ -177,21 +247,70 @@ export default function About() {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
+                {/* Profile Image in Story Section */}
+                <div className="relative group">
+                  {/* Background glow */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-2xl blur-xl"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                      opacity: [0.3, 0.4, 0.3]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  
+                  {/* Image container */}
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
+                    <motion.img
+                      src="/images/profile.jpg"
+                      alt="About Me"
+                      className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105"
+                      style={{
+                        filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
+                      }}
+                      whileHover={{
+                        filter: 'brightness(1.08) contrast(1.15) saturate(1.15)',
+                      }}
+                      onError={(e) => {
+                        e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop";
+                      }}
+                    />
+                    
+                    {/* Overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Corner accent */}
+                    <div className="absolute top-4 right-4 w-16 h-16 border-2 border-primary/30 rounded-lg rotate-45 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-4 left-4 w-12 h-12 border-2 border-accent/30 rounded-lg rotate-45 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative lg:col-span-2 mt-8"
+              >
                 <div className="bg-gradient-to-br from-primary to-accent p-8 rounded-2xl">
                   <div className="bg-base-100 p-6 rounded-xl">
                     <h3 className="text-2xl font-bold mb-4">Quick Facts</h3>
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <span>Years of Experience</span>
-                        <span className="font-bold text-primary">4+</span>
+                        <span className="font-bold text-primary">3+</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Projects Completed</span>
-                        <span className="font-bold text-primary">50+</span>
+                        <span className="font-bold text-primary">10+</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Happy Clients</span>
-                        <span className="font-bold text-primary">30+</span>
+                        <span className="font-bold text-primary">1</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Coffee Consumed</span>

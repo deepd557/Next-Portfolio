@@ -115,21 +115,21 @@ export default function Contact() {
     {
       icon: EnvelopeIcon,
       title: 'Email',
-      value: 'your.email@example.com',
+      value: 'deepsavaliya347@gmail.com',
       description: 'Send me an email anytime'
     },
     {
       icon: PhoneIcon,
       title: 'Phone',
-      value: '+1 (555) 123-4567',
+      value: '+91 8732902950',
       description: 'Call me for urgent matters'
     },
-    {
-      icon: MapPinIcon,
-      title: 'Location',
-      value: 'Your City, Country',
-      description: 'Available for remote work'
-    },
+    // {
+    //   icon: MapPinIcon,
+    //   title: 'Location',
+    //   value: 'Your City, Country',
+    //   description: 'Available for remote work'
+    // },
     {
       icon: ClockIcon,
       title: 'Response Time',

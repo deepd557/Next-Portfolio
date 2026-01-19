@@ -1,9 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  CodeBracketIcon, 
-  RocketLaunchIcon, 
+import { useState, useEffect } from 'react';
+import {
+  CodeBracketIcon,
+  RocketLaunchIcon,
   StarIcon,
   HeartIcon,
   FireIcon,
@@ -12,31 +13,53 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function FloatingElements() {
-  const elements = [
-    { Icon: CodeBracketIcon, delay: 0, duration: 4 },
-    { Icon: RocketLaunchIcon, delay: 0.5, duration: 5 },
-    { Icon: StarIcon, delay: 1, duration: 3 },
-    { Icon: HeartIcon, delay: 1.5, duration: 4.5 },
-    { Icon: FireIcon, delay: 2, duration: 3.5 },
-    { Icon: BoltIcon, delay: 2.5, duration: 4 },
-    { Icon: SparklesIcon, delay: 3, duration: 3.8 },
-  ];
+  const [isMounted, setIsMounted] = useState(false);
+  const [elements, setElements] = useState([]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const icons = [
+      CodeBracketIcon,
+      RocketLaunchIcon,
+      StarIcon,
+      HeartIcon,
+      FireIcon,
+      BoltIcon,
+      SparklesIcon
+    ];
+
+    const generatedElements = icons.map((Icon, index) => ({
+      Icon,
+      delay: index * 0.5,
+      duration: 3 + Math.random() * 2,
+      initialX: Math.random() * window.innerWidth,
+      initialY: Math.random() * window.innerHeight,
+      targetX: Math.random() * window.innerWidth,
+      targetY: Math.random() * window.innerHeight,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+
+    setElements(generatedElements);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {elements.map(({ Icon, delay, duration }, index) => (
+      {elements.map(({ Icon, delay, duration, initialX, initialY, targetX, targetY, left, top }, index) => (
         <motion.div
           key={index}
           className="absolute text-primary/20"
-          initial={{ 
-            x: Math.random() * window?.innerWidth || 1000,
-            y: Math.random() * window?.innerHeight || 800,
+          initial={{
+            x: initialX,
+            y: initialY,
             rotate: 0,
             scale: 0.5
           }}
           animate={{
-            x: Math.random() * (window?.innerWidth || 1000),
-            y: Math.random() * (window?.innerHeight || 800),
+            x: targetX,
+            y: targetY,
             rotate: 360,
             scale: [0.5, 1, 0.5]
           }}
@@ -47,8 +70,8 @@ export default function FloatingElements() {
             ease: "linear"
           }}
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left,
+            top,
           }}
         >
           <Icon className="h-8 w-8 md:h-12 md:w-12" />
